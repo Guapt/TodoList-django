@@ -1,0 +1,55 @@
+{% extends 'layout.html' %}
+
+
+{% block title %} todo:list{% endblock %}
+
+{% block search %}{{search}}{% endblock %}
+
+{% block content %}
+
+            <script>
+            const deleteTodo = (e, id)=>{
+                e.preventDefault();
+                const res = confirm("Do you want to delete task?");
+                if(!res){
+                    return
+                }
+                window.location.href=`/todo/delete/${id}`
+            }
+            </script>
+
+<div class="max-h-[80vh] overflow-y-scroll w-full bg-blue-100">
+    <div class="min-w-5xl max-w-3xl mx-auto flex items-center justify-between my-4">
+        <h1 class="text-2xl font-bold uppercase">My Sodule</h1>
+        <a href="{% url 'todo_add' %}" class="bg-blue-500 text-white font-semibold px-10 py-3 rounded-md active:scale-95 transition duration-300">ADD TODO</a>
+
+    </div>
+    <table class="min-w-5xl mx-auto divide-y divide-gray-200 bg-white">
+        <thead class="bg-gray-100">
+            <tr class="">
+                <th class="px-6 py-3 text-left text-sm font-semibold text-gray-600">ID</th>
+                <th class="px-10 py-3 text-left text-sm font-semibold text-gray-600">TITLE</th>
+                <th class="px-10 py-3 text-left text-sm font-semibold text-gray-600">STATUS</th>
+                <th class="px-10 py-3 text-left text-sm font-semibold text-gray-600">CREATED</th>
+                <th class="px-10 py-3 text-left text-sm font-semibold text-gray-600">ACTION</th>
+            </tr>
+        </thead>
+        {% for todo in todo_lists %}
+        <tbody class="divide-y divide-gray-200">
+            <tr class="hover:bg-gray-50 transition">
+                <td class="px-6 py-4 text-sm text-gray-700">{{todo.id}}</td>
+                <td class="px-10 py-4 text-sm text-gray-700">{{todo.title}}</td>
+                <td class="px-10 py-4 text-sm text-gray-700">{{todo.status}}</td>
+                <td class="px-10 py-4 text-sm text-gray-700">{{todo.created_at}}</td>
+                <td class="px-10 py-4 text-sm text-gray-700 flex items-center gap-4">
+                    <a href="{% url 'todo_edit' todo.id%}" class="text-blue-800 bg-blue-200 p-1 px-2 rounded-lg font-semibold text-xs">EDIT</a>
+                    <a  href="#" class="text-ted-800 bg-red-200 p-1 px-2 rounded-lg font-semibold text-xs" onclick="deleteTodo(event, {{todo.id}})">DELETE</a>
+                </td>
+            </tr>
+            
+        </tbody>
+        
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

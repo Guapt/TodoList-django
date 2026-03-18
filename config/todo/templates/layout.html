@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>{% block title %} todo {% endblock %}</title>
+</head>
+<body>
+    <div class="h-screen w-full bg-blue-100">
+        <nav class="flex justify-between item-center px-10 py-4 bg-white uppercase">
+
+            <h1 class="bg-linear-to-br from-rose-500 to-blue-500 w-fit text-3xl font-semibold bg-clip-text text-transparent">
+                TODO<span class="text-black">List</span>
+            </h1>
+
+            <div class="flex gap-6 item-center text-[17px] text-medium">
+                <a href="{% url 'todo_list' %}" class="hover:text-blue-500 active:scale-95 transition-colors durations-300">home</a>
+                <a href="{% url 'todo_list' %}" class="hover:text-blue-500 active:scale-95 transition-colors durations-300">All Todo</a>
+                <a href="{% url 'completed' %}" class="hover:text-blue-500 active:scale-95 transition-colors durations-300">Complited</a>
+                <a href="{% url 'pending' %}" class="hover:text-blue-500 active:scale-95 transition-colors durations-300">Pending</a>
+                <a href="{% url 'reject' %}" class="hover:text-blue-500 active:scale-95 transition-colors durations-300">reject</a>
+            </div>
+
+            <form action="{% url 'search' %}" method="post">
+                {% csrf_token %}
+                <input class="outline" type="search" name="search" id="search" placeholder="search Todo" value="{% block search %}{% endblock %}">
+                <button type="submit">search</button>
+            </form>
+        </nav>
+        {% block content %} {% endblock %}
+    </div>
+    
+</body>
+</html>
